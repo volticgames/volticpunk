@@ -10,7 +10,7 @@ package volticpunk.util
 		
 		public static function onScreen(x:Number, y:Number):Boolean
 		{
-			return x > FP.camera.x && x < FP.camera.x + Main.WIDTH && y > FP.camera.y && y < FP.camera.y + Main.HEIGHT;
+			return x > FP.camera.x && x < FP.camera.x + C.WIDTH && y > FP.camera.y && y < FP.camera.y + C.HEIGHT;
 		}
 	}
 }

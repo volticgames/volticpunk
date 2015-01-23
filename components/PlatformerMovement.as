@@ -54,7 +54,7 @@ package volticpunk.components
 		{	
 			var dir: Number = velocity / Math.abs(velocity);
 			
-			if (!parent.collideTypes(collisionTypes, parent.x + dir * Main.GRID, parent.y))
+			if (!parent.collideTypes(collisionTypes, parent.x + dir * C.GRID, parent.y))
 			{
 				this.velocity.x = velocity;	
 			}

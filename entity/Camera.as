@@ -73,11 +73,11 @@ package volticpunk.entity
 			{
 				if (following == null)
 				{
-					if (Diff.diff(this.x, target.x) >= 0.1) this.x -= (this.x - (target.x - Main.WIDTH/2))/speed;
-					if (Diff.diff(this.y, target.y) >= 0.1) this.y -= (this.y - (target.y - Main.HEIGHT/2))/speed;
+					if (Diff.diff(this.x, target.x) >= 0.1) this.x -= (this.x - (target.x - C.WIDTH/2))/speed;
+					if (Diff.diff(this.y, target.y) >= 0.1) this.y -= (this.y - (target.y - C.HEIGHT/2))/speed;
 				} else {
-					if (Diff.diff(this.x, following.x) >= 0.1) this.x -= (this.x - (following.x - Main.WIDTH/2) + offset.x)/speed;
-					if (Diff.diff(this.y, following.y) >= 0.1) this.y -= (this.y - (following.y - Main.HEIGHT/2) + offset.y)/speed;
+					if (Diff.diff(this.x, following.x) >= 0.1) this.x -= (this.x - (following.x - C.WIDTH/2) + offset.x)/speed;
+					if (Diff.diff(this.y, following.y) >= 0.1) this.y -= (this.y - (following.y - C.HEIGHT/2) + offset.y)/speed;
 					target.x = following.x;
 					target.y = following.y;
 				}
@@ -124,8 +124,8 @@ package volticpunk.entity
 		 */		
 		private function setPositionWithConstraints(x: Number, y: Number, extraX: Number, extraY: Number): void
 		{
-			FP.camera.x = Constrain.constrain(x, 0, room.levelWidth - Main.WIDTH) + extraX;
-			FP.camera.y = Constrain.constrain(y, 0, room.levelHeight - Main.HEIGHT) + extraY;
+			FP.camera.x = Constrain.constrain(x, 0, room.levelWidth - C.WIDTH) + extraX;
+			FP.camera.y = Constrain.constrain(y, 0, room.levelHeight - C.HEIGHT) + extraY;
 			
 		}
 		
@@ -208,7 +208,7 @@ package volticpunk.entity
 		public function panTo(duration:Number, destx:Number, desty:Number, callback:Function=null):void
 		{
 			panCallback = callback;
-			panner.tween(this, {x:destx - Main.WIDTH/2, y:desty - Main.HEIGHT/2}, duration);
+			panner.tween(this, {x:destx - C.WIDTH/2, y:desty - C.HEIGHT/2}, duration);
 			following = null;
 			target.x = destx;
 			target.y = desty;
@@ -278,8 +278,8 @@ package volticpunk.entity
 		public function snapTo(x:Number, y:Number):void
 		{
 			log("Told to snap to:", x, y);
-			this.x = x - Main.WIDTH/2;
-			this.y = y - Main.HEIGHT/2;
+			this.x = x - C.WIDTH/2;
+			this.y = y - C.HEIGHT/2;
 			setPositionWithConstraints(this.x, this.y, 0, 0);
 			target.x = this.x;
 			target.y = this.y;

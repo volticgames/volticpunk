@@ -31,11 +31,11 @@ public class PanningAndScalingSound extends Component {
     override public function update():void
     {
 
-        sound.volume = 1.0 / ( parent.distanceToPoint(FP.camera.x + Main.WIDTH / 2, FP.camera.y + Main.HEIGHT / 2) / 50.0 );
+        sound.volume = 1.0 / ( parent.distanceToPoint(FP.camera.x + C.WIDTH / 2, FP.camera.y + C.HEIGHT / 2) / 50.0 );
 
         sound.volume = Constrain.constrain(sound.volume, minVol, maxVol);
 
-        sound.pan = (parent.x - (FP.camera.x + Main.WIDTH)) / 300.0;
+        sound.pan = (parent.x - (FP.camera.x + C.WIDTH)) / 300.0;
     }
 
     public function play():void
