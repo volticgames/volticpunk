@@ -5,9 +5,9 @@ package volticpunk.worlds
 	import net.flashpunk.graphics.Image;
 	import net.flashpunk.tweens.misc.VarTween;
 
-	import volticpunk.entity.Camera;
-	import volticpunk.entity.Group;
-	import volticpunk.entity.VEntity;
+	import volticpunk.entities.Camera;
+	import volticpunk.entities.Group;
+	import volticpunk.entities.VEntity;
 	
 	public class Room extends OgmoLevelLoader
 	{		

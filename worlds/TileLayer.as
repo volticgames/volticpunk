@@ -2,7 +2,7 @@ package volticpunk.worlds
 {
 	import net.flashpunk.graphics.Tilemap;
 	
-	import volticpunk.entity.VEntity;
+	import volticpunk.entities.VEntity;
 	
 	public class TileLayer extends VEntity
 	{

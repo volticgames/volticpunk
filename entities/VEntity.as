@@ -1,4 +1,4 @@
-package volticpunk.entity {
+package volticpunk.entities {
 	
 	import flash.utils.Dictionary;
 	

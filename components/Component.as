@@ -10,7 +10,7 @@ import net.flashpunk.Entity;
 import net.flashpunk.World;
 
 import volticpunk.util.Logger;
-import volticpunk.entity.VEntity;
+import volticpunk.entities.VEntity;
 
 public class Component {
 

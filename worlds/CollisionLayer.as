@@ -12,7 +12,7 @@ package volticpunk.worlds
 	import net.flashpunk.graphics.Tilemap;
 	import net.flashpunk.masks.Pixelmask;
 	
-	import volticpunk.entity.VEntity;
+	import volticpunk.entities.VEntity;
 	
 	public class CollisionLayer extends VEntity
 	{
