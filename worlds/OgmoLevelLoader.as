@@ -18,11 +18,6 @@ package volticpunk.worlds
 		
 		public var levelWidth:int;
 		public var levelHeight:int;
-		public var area:String;
-		public var cliffBackground: Boolean;
-		public var skyBackground: Boolean;
-
-        protected var fileLoaded:Boolean = false;
 		
 		public function OgmoLevelLoader()
 		{
@@ -38,11 +33,6 @@ package volticpunk.worlds
 				Logger.log("Room", args);
 			}
 			
-		}
-		
-		public function getArea(): String
-		{
-			return area;
 		}
 		
 		override public function begin():void
