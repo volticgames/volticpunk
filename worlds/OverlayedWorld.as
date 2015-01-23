@@ -51,6 +51,11 @@ package volticpunk.worlds
             }
 		}
 		
+		protected function disableDarknessOverlay(): void
+		{
+			darknessOverlay.alpha = 0;
+		}
+		
 		/**
 		 * Create the moody darkness overlay. 
 		 */

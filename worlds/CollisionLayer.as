@@ -23,7 +23,9 @@ package volticpunk.worlds
 		protected var width: Number;
 		protected var height: Number;
 		
-		public function CollisionLayer(map: XML, tileset: Class, mapData: String, width: Number = -1, height: Number = -1)
+		private var tilemap: Tilemap;
+		
+		public function CollisionLayer(map: XML, tileset: Class, mapData: String, type: String = "level", width: Number = -1, height: Number = -1)
 		{
 			super();
 			this.map = map;
@@ -31,6 +33,7 @@ package volticpunk.worlds
 			this.mapData = mapData;
 			this.width = width;
 			this.height = height;
+			this.type = type;
 			
 			if (width == -1)
 			{
@@ -42,6 +45,9 @@ package volticpunk.worlds
 				height = map.@height;
 			}
 			
+			//Set tilemap
+			tilemap = new Tilemap(tileset, map.@width, map.@height, C.TILE_SIZE, C.TILE_SIZE);
+			
 			load();
 		}
 		
@@ -51,13 +57,6 @@ package volticpunk.worlds
 			var cols:Array;
 			var i:Number, j:Number;
 			
-			
-			var tileset: Class = A.CollisionTileset;
-			var collisionTilemap: Tilemap;
-			
-			//Set tilemap
-			collisionTilemap = new Tilemap(tileset, map.@width, map.@height, C.TILE_SIZE, C.TILE_SIZE);
-			
 			//Load tiles
 			for (i = 0; i < rows.length; i++)
 			{
@@ -65,7 +64,10 @@ package volticpunk.worlds
 				for (j = 0; j < cols.length; j++)
 				{
 					var temp:int = int(cols[j]);
-					if (temp >= 0) collisionTilemap.setTile(j, i, int(cols[j]));
+					if (temp >= 0)
+					{
+						tilemap.setTile(j, i, int(cols[j]));
+					}
 				}
 			}
 			
@@ -74,20 +76,20 @@ package volticpunk.worlds
 			var bitmap: Bitmap = new tileset;
 			var tilebitmap: BitmapData = bitmap.bitmapData;
 			var maskbitmap: BitmapData = new BitmapData(C.TILE_SIZE, C.TILE_SIZE, true, 0);
-			var tRows: uint = collisionTilemap.width / collisionTilemap.tileWidth;
-			var tCols: uint = collisionTilemap.height / collisionTilemap.tileHeight;
+			var tRows: uint = tilemap.width / tilemap.tileWidth;
+			var tCols: uint = tilemap.height / tilemap.tileHeight;
 			
 			for (var xx:uint = 0; xx < tRows; xx++) {
 				for (var yy:uint = 0; yy < tCols; yy++) {
-					var tile:int = collisionTilemap.getTile(xx, yy);
+					var tile:int = tilemap.getTile(xx, yy);
 					if (tile != 0) {
 						//log(tile, xx, yy);
 						maskbitmap.fillRect(maskbitmap.rect, 0);
 						maskbitmap.copyPixels(tilebitmap, convertFromTileIndexToRect(tile), new Point(0,0));
 						var mask:Pixelmask = new Pixelmask(maskbitmap.clone());
 						var type:String = C.DEFAULT_COLLISION_TYPE;
-						var xxx:int = xx * collisionTilemap.tileWidth;
-						var yyy:int = yy * collisionTilemap.tileHeight;
+						var xxx:int = xx * tilemap.tileWidth;
+						var yyy:int = yy * tilemap.tileHeight;
 						
 						var e:Entity = new Entity(xxx, yyy, null, mask);
 						e.collidable = true;

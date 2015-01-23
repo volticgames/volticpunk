@@ -154,15 +154,15 @@ package volticpunk.components
 
 			
             movedAmount.x += 1;
-            if (!parent.collideTypes(specialCollisionTypes, parent.x + dir, parent.y + 1))
-            {
-                parent.x += dir;
-                parent.y++;
-
-            } else if (!parent.collideTypes(specialCollisionTypes, parent.x + dir, parent.y))
+            if (!parent.collideTypes(specialCollisionTypes, parent.x + dir, parent.y))
 			{
                 parent.x += dir;
 
+			} else if (!parent.collideTypes(specialCollisionTypes, parent.x + dir, parent.y + 1))
+			{
+				parent.x += dir;
+				parent.y++;
+				
 			} //Slope check case 
 			else if (!parent.collideTypes(specialCollisionTypes, parent.x + dir, parent.y - 1))
 			{
