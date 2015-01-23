@@ -12,14 +12,14 @@ package volticpunk.worlds
 	
 	import volticpunk.util.Logger;
 	
-	public class OgmoLevelLoader extends World
+	public class OverlayedWorld extends World
 	{		
 		public var darknessOverlay:Image;
 		
 		public var levelWidth:int;
 		public var levelHeight:int;
 		
-		public function OgmoLevelLoader()
+		public function OverlayedWorld()
 		{
 			super();
 			createDarknessOverlay();

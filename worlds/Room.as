@@ -9,7 +9,7 @@ package volticpunk.worlds
 	import volticpunk.entities.Group;
 	import volticpunk.entities.VEntity;
 	
-	public class Room extends OgmoLevelLoader
+	public class Room extends OverlayedWorld
 	{		
 		public var cam:Camera;
 		
