@@ -8,8 +8,8 @@ package volticpunk.entity
 	
 	import volticpunk.util.Constrain;
 	import volticpunk.util.Diff;
-	import volticpunk.worlds.Room;
-	import volticpunk.worlds.Room;
+	import worlds.Room;
+	import worlds.Room;
 	
 	/**
 	 * Camera class for the controlling the viewport. 

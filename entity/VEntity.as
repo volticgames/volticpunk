@@ -11,7 +11,7 @@ package volticpunk.entity {
 	import volticpunk.components.PlatformerMovement;
 	import volticpunk.components.Tweener;
 	import volticpunk.util.Logger;
-	import volticpunk.worlds.Room;
+	import worlds.Room;
 	
 	public class VEntity extends Entity {
 	
