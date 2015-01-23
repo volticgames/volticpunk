@@ -9,8 +9,6 @@ package volticpunk.worlds
 	
 	import net.flashpunk.Entity;
 	import net.flashpunk.FP;
-	import net.flashpunk.Graphic;
-	import net.flashpunk.Mask;
 	import net.flashpunk.graphics.Tilemap;
 	import net.flashpunk.masks.Pixelmask;
 	

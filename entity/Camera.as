@@ -8,8 +8,6 @@ package volticpunk.entity
 	
 	import volticpunk.util.Constrain;
 	import volticpunk.util.Diff;
-	import worlds.Room;
-	import worlds.Room;
 	
 	/**
 	 * Camera class for the controlling the viewport. 
@@ -37,14 +35,12 @@ package volticpunk.entity
 		
 		public var amountMovedLastFrame: Point;
 		
-		public function Camera(x:Number=0, y:Number=0, room: Room = null)
+		public function Camera(x:Number=0, y:Number=0)
 		{
 			super(x, y, null, null);
 			target = new Point(x, y);
 			offset = new Point(0, 0);
 			shake = new Point(0, 0);
-			
-			this.room = room;
 			
 			panner = new MultiVarTween(panComplete);
 			amountMovedLastFrame = new Point(0, 0);

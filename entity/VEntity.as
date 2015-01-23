@@ -3,6 +3,7 @@ package volticpunk.entity {
 	import flash.utils.Dictionary;
 	
 	import net.flashpunk.Entity;
+	import net.flashpunk.FP;
 	import net.flashpunk.graphics.Image;
 	import net.flashpunk.graphics.Text;
 	
@@ -11,12 +12,11 @@ package volticpunk.entity {
 	import volticpunk.components.PlatformerMovement;
 	import volticpunk.components.Tweener;
 	import volticpunk.util.Logger;
-	import worlds.Room;
+	import volticpunk.worlds.Room;
 	
 	public class VEntity extends Entity {
 	
 	    private var componentList:Vector.<Component>;
-		public var room: Room;
 		private var componentLookup:Dictionary;
 		
 		private var firstUpdate: Boolean = false;
@@ -100,6 +100,10 @@ package volticpunk.entity {
 		public function lookup(name:String):Component
 		{
 			return this.componentLookup[name];
+		}
+		
+		public function get room(): Room {
+			return FP.world as Room;
 		}
 		
 		public function getRoom(): Room
@@ -205,8 +209,6 @@ package volticpunk.entity {
 	    override public function added():void
 	    {
 	        super.added();
-			
-			this.room = this.world as Room;
 	
 	        for each (var c:Component in componentList)
 	        {
@@ -219,8 +221,6 @@ package volticpunk.entity {
 	    override public function removed():void
 	    {
 	        super.removed();
-			
-			this.room = null;
 	
 	        for each (var c:Component in componentList)
 	        {

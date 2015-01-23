@@ -4,7 +4,6 @@ package volticpunk.util
 	import flash.utils.ByteArray;
 	import flash.utils.Dictionary;
 	
-
 	public class AnimationLoader
 	{
 		

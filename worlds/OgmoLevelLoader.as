@@ -11,12 +11,10 @@ package volticpunk.worlds
 	import net.flashpunk.utils.Key;
 	
 	import volticpunk.util.Logger;
-	import worlds.util.TileLoader;
 	
 	public class OgmoLevelLoader extends World
 	{		
 		public var darknessOverlay:Image;
-		public var tileLoader: TileLoader;
 		
 		public var levelWidth:int;
 		public var levelHeight:int;
