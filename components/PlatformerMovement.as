@@ -156,14 +156,17 @@ package volticpunk.components
             movedAmount.x += 1;
             if (!parent.collideTypes(specialCollisionTypes, parent.x + dir, parent.y))
 			{
-                parent.x += dir;
-
-			} else if (!parent.collideTypes(specialCollisionTypes, parent.x + dir, parent.y + 1))
-			{
-				parent.x += dir;
-				parent.y++;
+				if (!parent.collideTypes(specialCollisionTypes, parent.x + dir, parent.y + 1) && parent.collideTypes(specialCollisionTypes, parent.x, parent.y + 1))
+				{
+					parent.y++;
+				}
 				
-			} //Slope check case 
+                parent.x += dir;
+				
+				
+
+			}
+			//Slope check case 
 			else if (!parent.collideTypes(specialCollisionTypes, parent.x + dir, parent.y - 1))
 			{
                 parent.x += dir;
@@ -300,8 +303,8 @@ package volticpunk.components
 		 */		
 		protected function onLanding():void
 		{
-            velocity.y = 0;
-            if (landingCallback != null) landingCallback();
+			if (landingCallback != null) landingCallback();
+			velocity.y = 0;
 		}
 		
 	}
