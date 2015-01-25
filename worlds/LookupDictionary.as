@@ -42,6 +42,7 @@ package volticpunk.worlds
 					
 				} else {
 					c = lookup as Class;
+					c.create(n, world);
 				}
 			} else {
 				try {

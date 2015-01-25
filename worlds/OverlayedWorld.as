@@ -43,12 +43,6 @@ package volticpunk.worlds
 		override public function update():void
 		{
 			super.update();
-
-            if (Input.pressed(Key.DIGIT_9))
-            {
-                FP.stage.fullScreenSourceRect = new Rectangle(0, 0, 640, 360);
-                FP.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
-            }
 		}
 		
 		protected function disableDarknessOverlay(): void

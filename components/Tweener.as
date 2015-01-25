@@ -25,6 +25,16 @@ package volticpunk.components
 			parent.addTween(tweener);
 		}
 		
+		public function pause(): void
+		{
+			tweener.active = false;
+		}
+		
+		public function unpause(): void
+		{
+			tweener.active = true;
+		}
+		
 		override public function added():void
 		{
 			parent.addTween(tweener);

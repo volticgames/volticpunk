@@ -162,9 +162,6 @@ package volticpunk.components
 				}
 				
                 parent.x += dir;
-				
-				
-
 			}
 			//Slope check case 
 			else if (!parent.collideTypes(specialCollisionTypes, parent.x + dir, parent.y - 1))
@@ -205,6 +202,11 @@ package volticpunk.components
 			{
                 parent.y += dir;
 
+			}
+			
+			if (parent.collideTypes(specialCollisionTypes, parent.x, parent.y - 1))
+			{
+				velocity.y = 0;
 			}
 		}
 		
