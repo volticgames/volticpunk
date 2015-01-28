@@ -15,3 +15,7 @@ Create a package `entities.loadable` and place `volticpunk.entities.loadable`'s 
 ## Dependencies
 
 This project depends only on FlashPunk
+
+## Usage
+
+Volticpunk is currently best included in your project as a git submodule.
