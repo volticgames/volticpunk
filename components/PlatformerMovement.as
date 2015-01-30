@@ -229,7 +229,7 @@ package volticpunk.components
 		{			
 			super.update();
 
-			if (lastOnGround != onGround && velocity.y != 0)
+			if (lastOnGround != onGround && velocity.y >= 0)
 			{
 				if (lastOnGround == false)
 				{
@@ -297,6 +297,11 @@ package volticpunk.components
 			} else {
 				velocity.y = Math.max(velocity.y, maxSpeed.y*-1);
 			}
+		}
+		
+		public function forceLandingCallback(): void
+		{
+			onLanding();
 		}
 		
 		/**
