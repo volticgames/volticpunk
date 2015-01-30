@@ -164,7 +164,7 @@ package volticpunk.components
                 parent.x += dir;
 			}
 			//Slope check case 
-			else if (!parent.collideTypes(specialCollisionTypes, parent.x + dir, parent.y - 1))
+			else if (!parent.collideTypes(specialCollisionTypes, parent.x + dir, parent.y - 1) && parent.collideTypes(specialCollisionTypes, parent.x, parent.y + 1))
 			{
                 parent.x += dir;
                 parent.y--;
