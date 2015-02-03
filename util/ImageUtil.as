@@ -19,5 +19,10 @@ package volticpunk.util
 			
 			return image;
 		}
+		
+		public static function centerPivotPoint(image: Image): Image
+		{
+			return setPivotPoint(image, new Point(image.width / 2, image.height / 2));
+		}
 	}
 }

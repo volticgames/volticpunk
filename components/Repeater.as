@@ -38,6 +38,36 @@ package volticpunk.components
 			paused = !paused;
 		}
 		
+		public function getTimeLeft():Number
+		{
+			return every - counter;
+		}
+		
+		public function getOriginalTime():Number
+		{
+			return every;
+		}
+		
+		/**
+		 * Get the time left as as a 1-0 value. At 0 it expires. 
+		 * @return 
+		 * 
+		 */		
+		public function getRemainingPercent():Number
+		{
+			return getTimeLeft() / getOriginalTime();
+		}
+		
+		/**
+		 * Get the time left as as a 0-1 value. At 1 it expires. 
+		 * @return 
+		 * 
+		 */		
+		public function getExpirationPercent():Number
+		{
+			return 1 - (getTimeLeft() / getOriginalTime());
+		}
+		
 		override public function update():void
 		{
 			super.update();
