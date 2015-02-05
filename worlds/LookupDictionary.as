@@ -62,7 +62,7 @@ package volticpunk.worlds
 					trace("Called.");
 				} catch (e: Error)
 				{
-					throw new LevelLoadError("Load error when calling create() on a class, have you created a load handler? " + e.name + ": " + e.message);
+					throw new LevelLoadError("Load error when calling create() on a class, have you created a load handler? " + e.name + ": " + e.message + "(" + e.getStackTrace() + ")");
 				}
 			}
 			
