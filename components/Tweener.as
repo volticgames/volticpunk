@@ -1,17 +1,20 @@
 package volticpunk.components
 {
+	import net.flashpunk.FP;
 	import net.flashpunk.tweens.misc.MultiVarTween;
-
+	
 	public class Tweener extends Component
 	{
 		
 		private var tweener:MultiVarTween;
+		private var frameDependent: Boolean;
 		
-		public function Tweener(callback:Function = null)
+		public function Tweener(callback:Function = null, convertTimeToFrames: Boolean = false)
 		{
 			super();
 			
 			tweener = new MultiVarTween(callback);
+			this.frameDependent = convertTimeToFrames;
 		}
 		
 		override public function getName():String
@@ -57,7 +60,14 @@ package volticpunk.components
 		
 		public function tween(object:Object, values:Object, duration:Number, ease:Function = null, delay:Number = 0):void
 		{
-			tweener.tween(object, values, duration, ease, delay);
+			if (frameDependent)
+			{
+				trace(FP.frameRate);
+				tweener.tween(object, values, duration / FP.frameRate, ease, delay);
+			} else {
+				tweener.tween(object, values, duration, ease, delay);	
+			}
+			
 		}
 		
 		public function getCompletion():Number
@@ -66,3 +76,5 @@ package volticpunk.components
 		}
 	}
 }
+import volticpunk.components;
+

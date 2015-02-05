@@ -38,7 +38,9 @@ package volticpunk.components
 		
 		private var startedFallingY: Number = -1;
 		
-		public function PlatformerMovement(acceleration:Point=null, friction:Point=null, maxSpeed:Point=null)
+		private var adaptToTimeDelta: Boolean;
+		
+		public function PlatformerMovement(acceleration:Point=null, friction:Point=null, maxSpeed:Point=null, adaptToTimeDelta: Boolean = true)
 		{
 			//Initialise
             this.velocity = new Point(0, 0);
@@ -46,6 +48,7 @@ package volticpunk.components
 			tempVelocity = new Point(0, 0);
             this.friction = (friction == null) ? new Point(1.15, 1) : friction;
             this.maxSpeed = (maxSpeed == null) ? new Point(5, 5) : maxSpeed;
+			this.adaptToTimeDelta = adaptToTimeDelta;
 			
 			this.collisionTypes = C.COLLISION_TYPES;
 		}
@@ -112,8 +115,15 @@ package volticpunk.components
 		 */		
 		private function moveObject():void
 		{
-			tempVelocity.x += Math.abs(velocity.x * FP.elapsed * 60);
-			tempVelocity.y += Math.abs(velocity.y * FP.elapsed * 60);
+			if (adaptToTimeDelta)
+			{
+				tempVelocity.x += Math.abs(velocity.x * (FP.elapsed / (1.0/60.0)));
+				tempVelocity.y += Math.abs(velocity.y * (FP.elapsed / (1.0/60.0)));	
+			} else {
+				tempVelocity.x += Math.abs(velocity.x);
+				tempVelocity.y += Math.abs(velocity.y);
+			}
+
 			var horizontalDirection:int;
 			var verticalDirection:int;
 			

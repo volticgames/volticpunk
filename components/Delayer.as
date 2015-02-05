@@ -11,8 +11,9 @@ package volticpunk.components
 		private var active: Boolean = true;
 		private var initialTime: Number;
 		private var removeSelf: Boolean;
+		private var countFrames: Boolean;
 		
-		public function Delayer(time:Number, action:Function, removeComponent: Boolean = true)
+		public function Delayer(time:Number, action:Function, removeComponent: Boolean = true, countFrames: Boolean = false)
 		{
 			super();
 			
@@ -20,6 +21,7 @@ package volticpunk.components
 			initialTime = time;
 			this.action = action;
 			this.removeSelf = removeComponent;
+			this.countFrames = countFrames;
 		}
 		
 		public function pause():void
@@ -61,7 +63,13 @@ package volticpunk.components
 			
 			if (active)
 			{
-				timer -= FP.elapsed;
+				if (countFrames)
+				{
+					timer -= 1;
+				} else {
+					timer -= FP.elapsed;	
+				}
+				
 				
 				if (timer <= 0)
 				{
