@@ -47,7 +47,7 @@ package volticpunk.components
 		{
 			return tweener.active;
 		}
-		
+
 		override public function removed():void
 		{
 			parent.removeTween(tweener);
@@ -62,7 +62,6 @@ package volticpunk.components
 		{
 			if (frameDependent)
 			{
-				trace(FP.frameRate);
 				tweener.tween(object, values, duration / FP.frameRate, ease, delay);
 			} else {
 				tweener.tween(object, values, duration, ease, delay);	
@@ -76,5 +75,3 @@ package volticpunk.components
 		}
 	}
 }
-import volticpunk.components;
-
