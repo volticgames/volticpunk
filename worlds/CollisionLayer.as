@@ -19,30 +19,30 @@ package volticpunk.worlds
 		protected var map: XML;
 		protected var tileset: Class;
 		protected var mapData: String;
-		protected var layer: int;
-		protected var width: Number;
-		protected var height: Number;
+		protected var LAYER: int;
+		protected var WIDTH: Number;
+		protected var HEIGHT: Number;
 		
 		private var tilemap: Tilemap;
 		
-		public function CollisionLayer(map: XML, tileset: Class, mapData: String, type: String = "level", width: Number = -1, height: Number = -1)
+		public function CollisionLayer(map: XML, tileset: Class, mapData: String, type: String = "level", WIDTH: Number = -1, height: Number = -1)
 		{
 			super();
 			this.map = map;
 			this.tileset = tileset;
 			this.mapData = mapData;
-			this.width = width;
+			this.WIDTH = WIDTH;
 			this.height = height;
 			this.type = type;
 			
-			if (width == -1)
+			if (WIDTH == -1)
 			{
-				width = map.@width;
+				WIDTH = map.@width;
 			}
 			
-			if (height == -1)
+			if (HEIGHT == -1)
 			{
-				height = map.@height;
+				HEIGHT = map.@height;
 			}
 			
 			//Set tilemap
