@@ -9,8 +9,8 @@ package volticpunk.worlds
 		protected var map: XML;
 		protected var tileset: Class;
 		protected var mapData: String;
-		protected var width: Number;
-		protected var height: Number;
+		protected var mapWidth: Number;
+		protected var mapHeight: Number;
 		private var tilemap: Tilemap;
 		
 		public function TileLayer(map: XML, tileset: Class, mapData: String, layer: int, width: Number = -1, height: Number = -1)
@@ -19,20 +19,20 @@ package volticpunk.worlds
 			this.map = map;
 			this.tileset = tileset;
 			this.mapData = mapData;
-			this.width = width;
-			this.height = height;
+			this.mapWidth = width;
+			this.mapHeight = height;
 			
-			if (width == -1)
+			if (mapWidth == -1)
 			{
-				width = map.@width;
+				mapWidth = map.@width;
 			}
 			
-			if (height == -1)
+			if (mapHeight == -1)
 			{
-				height = map.@height;
+				mapHeight = map.@height;
 			}
 			
-			this.tilemap = new Tilemap(tileset, width, height, C.TILE_SIZE, C.TILE_SIZE);
+			this.tilemap = new Tilemap(tileset, mapWidth, mapHeight, C.TILE_SIZE, C.TILE_SIZE);
 			this.graphic = tilemap;
 			this.layer = layer;
 			
