@@ -205,6 +205,12 @@ package volticpunk.entities {
 	            c.update();
 	        }
 	    }
+		
+		public function removeFromWorld(): VEntity
+		{
+			world.remove(this);
+			return this;
+		}
 	
 	    override public function added():void
 	    {

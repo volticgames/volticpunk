@@ -1,10 +1,12 @@
 package volticpunk.entities
 {
 
+    import flash.errors.MemoryError;
+    
     import net.flashpunk.Entity;
     import net.flashpunk.FP;
     import net.flashpunk.Graphic;
-	
+    
     import volticpunk.util.Range;
 
 	public class Group extends VEntity
@@ -59,6 +61,11 @@ package volticpunk.entities
 			{
 				updateMember(e);
 			}
+		}
+		
+		public function contains(e: Entity): Boolean
+		{
+			return (contents.indexOf(e) >= 0);
 		}
 		
 		/**

@@ -2,10 +2,12 @@ package volticpunk.components
 {
 	import net.flashpunk.FP;
 	
+	import volticpunk.util.Logger;
+	
 	public class Delayer extends Component
 	{
 		
-		private var timer:Number;
+		public var timer:Number;
 		private var action:Function;
 		
 		private var active: Boolean = true;
@@ -60,6 +62,7 @@ package volticpunk.components
 		
 		override public function update():void
 		{
+			super.update();
 			
 			if (active)
 			{
@@ -74,6 +77,7 @@ package volticpunk.components
 				if (timer <= 0)
 				{
 					action(parent);
+					active = false;
 					
 					if (removeSelf)
 					{

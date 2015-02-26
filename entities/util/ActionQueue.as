@@ -31,6 +31,11 @@ package volticpunk.entities.util
 			trace("");
 		}
 		
+		protected function finished(): void
+		{
+			
+		}
+		
 		private function nextAction(): void
 		{
 			actions[currentAction]();
@@ -38,6 +43,7 @@ package volticpunk.entities.util
 			
 			if (currentAction >= actions.length)
 			{
+				finished();
 				V.getRoom().remove(this);
 			}
 		}
