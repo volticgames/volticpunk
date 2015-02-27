@@ -24,9 +24,16 @@ package volticpunk.entities {
 		private var shakeCountDown: Number;
 		private var shakePower: Number;
 		
+		public var groupX: Number;
+		public var groupY: Number;
+		
 	    public function VEntity(x:Number = 0,y:Number = 0,graphic:net.flashpunk.Graphic = null,mask:net.flashpunk.Mask = null) {
 	
 	        super(x, y, graphic, mask);
+			
+			groupX = x;
+			groupY = y;
+			
 	        componentList = new Vector.<Component>();
 			componentLookup = new Dictionary();
 	
@@ -208,7 +215,7 @@ package volticpunk.entities {
 		
 		public function removeFromWorld(): VEntity
 		{
-			world.remove(this);
+			if (world != null) world.remove(this);
 			return this;
 		}
 	
