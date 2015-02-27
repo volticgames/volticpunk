@@ -12,6 +12,8 @@ The project requires a file `C.as` defined in the root, which defines `WIDTH`, `
 
 Create a package `entities.loadable` and place `volticpunk.entities.loadable`'s contents in it, running the `generate.py` file creates `E.as` which is used for looking up entities via reflection.
 
+> We **are** seeking to improve this process for other developers. It's a little tricky since we use this library as part of our projects every day and don't want to break anything.
+
 ## Dependencies
 
 This project depends only on FlashPunk
