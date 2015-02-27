@@ -5,8 +5,6 @@ package volticpunk.worlds
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	
-	import assets.A;
-	
 	import net.flashpunk.Entity;
 	import net.flashpunk.FP;
 	import net.flashpunk.graphics.Tilemap;
@@ -19,30 +17,29 @@ package volticpunk.worlds
 		protected var map: XML;
 		protected var tileset: Class;
 		protected var mapData: String;
-		protected var LAYER: int;
-		protected var WIDTH: Number;
-		protected var HEIGHT: Number;
+		protected var layerWidth: Number;
+		protected var layerHeight: Number;
 		
 		private var tilemap: Tilemap;
 		
-		public function CollisionLayer(map: XML, tileset: Class, mapData: String, type: String = "level", WIDTH: Number = -1, height: Number = -1)
+		public function CollisionLayer(map: XML, tileset: Class, mapData: String, type: String = "level", width: Number = -1, height: Number = -1)
 		{
 			super();
 			this.map = map;
 			this.tileset = tileset;
 			this.mapData = mapData;
-			this.WIDTH = WIDTH;
-			this.height = height;
+			this.layerWidth = width;
+			this.layerHeight = height;
 			this.type = type;
 			
-			if (WIDTH == -1)
+			if (this.layerWidth == -1)
 			{
-				WIDTH = map.@width;
+				this.layerWidth = map.@width;
 			}
 			
-			if (HEIGHT == -1)
+			if (this.layerHeight == -1)
 			{
-				HEIGHT = map.@height;
+				this.layerHeight = map.@height;
 			}
 			
 			//Set tilemap
