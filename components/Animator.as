@@ -30,6 +30,11 @@ public class Animator extends Component {
 		}
     }
 	
+	public function getSpritemap(): Spritemap
+	{
+		return spritemap;
+	}
+	
 	public function setFlipped(yes:Boolean):Boolean
 	{
 		spritemap.flipped = yes;

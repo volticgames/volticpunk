@@ -10,5 +10,10 @@ package volticpunk.util
 		{
 			return Math.abs(num) / num;
 		}
+		
+		public static function closeTo(input: Number, target: Number, range: Number): Boolean
+		{
+			return (input > target - range) && (input < target + range);
+		}
 	}
 }

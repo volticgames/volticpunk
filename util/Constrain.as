@@ -17,5 +17,12 @@ package volticpunk.util
 			if (val >= max) return max;
 			return val;
 		}
+		
+		public static function wouldBeConstrained(val:Number, min:Number, max:Number): Boolean
+		{
+			if (val <= min) return true;
+			if (val >= max) return true;
+			return false;
+		}
 	}
 }

@@ -5,10 +5,10 @@ package volticpunk.components
 	public class Repeater extends Component
 	{
 		
-		private var every:Number;
-		private var execute:Function;
-		private var counter:Number = 0;
-		private var paused:Boolean = false;
+		private var every: Number;
+		private var execute: Function;
+		private var counter: Number = 0;
+		private var paused: Boolean = false;
 		
 		public function Repeater(every:Number, execute:Function)
 		{

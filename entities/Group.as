@@ -1,10 +1,12 @@
 package volticpunk.entities
 {
 
+    import flash.errors.MemoryError;
+    
     import net.flashpunk.Entity;
     import net.flashpunk.FP;
     import net.flashpunk.Graphic;
-	
+    
     import volticpunk.util.Range;
 
 	public class Group extends VEntity
@@ -16,6 +18,8 @@ package volticpunk.entities
 		
 		public function Group(x:int, y:int)
 		{
+			super(x, y);
+			
 			this.x = x;
 			this.y = y;
 			contents = new Vector.<Entity>();
@@ -43,12 +47,13 @@ package volticpunk.entities
 		 * @param y Y Pos
 		 * 
 		 */		
-		public function addGraphicalEntity(g:Graphic, layer:int, x:int, y:int):void
+		public function addGraphicalEntity(g:Graphic, layer:int, x:int, y:int): VEntity
 		{
-			var e:Entity = new Entity(x, y, g);
+			var e: VEntity = new VEntity(x, y, g);
 			e.layer = layer;
 			
 			contents.push(e);
+			return e;
 		}
 		
 		override public function update():void
@@ -59,6 +64,11 @@ package volticpunk.entities
 			{
 				updateMember(e);
 			}
+		}
+		
+		public function contains(e: Entity): Boolean
+		{
+			return (contents.indexOf(e) >= 0);
 		}
 		
 		/**
@@ -171,6 +181,14 @@ package volticpunk.entities
 		{
 			contents.splice(contents.indexOf(e), 1);
             if (removeFromWorld && world) world.remove(e);
+		}
+		
+		public function removeAll(removeFromWorld: Boolean=false): void
+		{
+			for each (var e: Entity in contents)
+			{
+				remove(e, removeFromWorld);
+			}
 		}
 		
 		/**
