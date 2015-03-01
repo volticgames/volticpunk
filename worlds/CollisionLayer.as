@@ -50,6 +50,11 @@ package volticpunk.worlds
 			load();
 		}
 		
+		public function getTilemap(): Tilemap
+		{
+			return tilemap;
+		}
+		
 		private function load(): void
 		{
 			var rows:Vector.<String> = Vector.<String>(mapData.split("\n"));
