@@ -10,7 +10,7 @@ package volticpunk.components
 		public var timer:Number;
 		private var action:Function;
 		
-		private var active: Boolean = true;
+		private var isActive: Boolean = true;
 		private var initialTime: Number;
 		private var removeSelf: Boolean;
 		private var countFrames: Boolean;
@@ -28,17 +28,18 @@ package volticpunk.components
 		
 		public function pause():void
 		{
-			active = false;
+			isActive = false;
 		}
 		
 		public function unpause():void
 		{
-			active = true;
+			isActive = true;
 		}
 		
 		public function reset(paused: Boolean = false):void
 		{
 			timer = initialTime;
+			
 			if (!paused)
 			{
 				this.unpause();
@@ -64,7 +65,7 @@ package volticpunk.components
 		{
 			super.update();
 			
-			if (active)
+			if (isActive)
 			{
 				if (countFrames)
 				{
@@ -73,11 +74,10 @@ package volticpunk.components
 					timer -= FP.elapsed;	
 				}
 				
-				
 				if (timer <= 0)
 				{
+					isActive = false;
 					action(parent);
-					active = false;
 					
 					if (removeSelf)
 					{

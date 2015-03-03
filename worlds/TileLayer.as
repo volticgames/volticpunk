@@ -13,7 +13,7 @@ package volticpunk.worlds
 		protected var mapHeight: Number;
 		private var tilemap: Tilemap;
 		
-		public function TileLayer(map: XML, tileset: Class, mapData: String, layer: int, WIDTH: Number = -1, HEIGHT: Number = -1)
+		public function TileLayer(map: XML, tileset: Class, mapData: String, layer: int, width: Number = -1, height: Number = -1)
 		{
 			super();
 			this.map = map;
