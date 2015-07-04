@@ -8,6 +8,7 @@ package volticpunk.entities {
 	import net.flashpunk.graphics.Text;
 	
 	import volticpunk.components.Animator;
+	import volticpunk.components.CentreOnScreen;
 	import volticpunk.components.Component;
 	import volticpunk.components.PlatformerMovement;
 	import volticpunk.components.Tweener;
@@ -51,6 +52,11 @@ package volticpunk.entities {
 		public function getText(): Text
 		{
 			return graphic as Text;
+		}
+		
+		public function getCentring(): CentreOnScreen
+		{
+			return getComponent(CentreOnScreen) as CentreOnScreen;
 		}
 		
 		public function shakeImage(power: Number, duration: Number): void

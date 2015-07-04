@@ -50,6 +50,11 @@ package volticpunk.components
 			}
 		}
 		
+		public function isCounting():Boolean
+		{
+			return isActive;
+		}
+		
 		public function forceTime(n:Number=0):void
 		{
 			timer = n;

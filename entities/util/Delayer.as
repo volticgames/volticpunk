@@ -3,28 +3,40 @@ package volticpunk.entities.util
 	import net.flashpunk.Entity;
 	import net.flashpunk.FP;
 	
-	public class Delayer extends Entity
+	import volticpunk.components.Delayer;
+	import volticpunk.entities.VEntity;
+	
+	public class Delayer extends VEntity
 	{
 		
 		private var timer:Number;
 		private var action:Function;
+		private var delayer: volticpunk.components.Delayer;
+		private var removeSelf: Boolean;
 		
-		public function Delayer(time:Number, action:Function)
+		public function Delayer(time:Number, action:Function, removeSelf: Boolean = true)
 		{
 			super(0, 0, null, null);
 			
-			timer = time;
+			delayer = new volticpunk.components.Delayer(time, done);
+			addComponent( new volticpunk.components.Delayer(time, done) );
+			
+			this.removeSelf = removeSelf;
+			
 			this.action = action;
 		}
 		
-		override public function update():void
+		public function getDelayer(): volticpunk.components.Delayer
 		{
-			timer -= FP.elapsed;
-			
-			if (timer <= 0)
+			return delayer;
+		}
+		
+		private function done(e: Entity = null):void
+		{
+			action();
+			if (removeSelf)
 			{
-				action();
-				this.world.remove(this);
+				this.world.remove(this);	
 			}
 		}
 	}

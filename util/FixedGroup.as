@@ -9,10 +9,13 @@ package volticpunk.util
 	public class FixedGroup extends Group
 	{
 		private var scroll: Number;
+		protected var controlLayers: Boolean = true;
 		
-		public function FixedGroup(x:int, y:int, scroll: Number = 1, layer: int = 0)
+		public function FixedGroup(x:int, y:int, scroll: Number = 1, layer: int = 0, controlLayers: Boolean = true)
 		{
 			super(x, y);
+			
+			this.controlLayers = controlLayers;
 			
 			this.scroll = scroll;
 			this.layer = layer;
@@ -32,6 +35,8 @@ package volticpunk.util
 			{
 				e.name = e.x + "," + e.y;
 			}
+			
+			updatePositions();
 			
 			return e;
 		}
@@ -55,9 +60,12 @@ package volticpunk.util
 					e.graphic.scrollY = scroll;
 				}
 				
-				if (e.layer > layer)
+				if (controlLayers)
 				{
-					e.layer = layer;
+					if (e.layer > layer)
+					{
+						e.layer = layer;
+					}
 				}
 				
 				if (e is FixedGroup)
@@ -80,7 +88,6 @@ package volticpunk.util
 		override public function update():void
 		{
 			super.update();
-			
 			updatePositions();
 		}
 	}

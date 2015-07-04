@@ -45,25 +45,18 @@ package volticpunk.worlds
 					c.create(n, world);
 				}
 			} else {
-				try {
-					
-					var name: String = "entities.loadable." + n.name();
-					trace("Loading... " + name);
-					c = getDefinitionByName(name) as Class;	
-					
-				} catch (e: Error)
+			
+				var name: String = "entities.loadable." + n.name();
+				trace("Loading... " + name);
+				c = getDefinitionByName(name) as Class;	
+				
+				if (c == null)
 				{
-					throw new LevelLoadError("Load Error when dynamically searching for class, did you forget to put your entity in entities.loadable? or did you forget to run Generate Entities? \n" + e.message);
+					throw new LevelLoadError("Load Error when dynamically searching for class, did you forget to put your entity in entities.loadable? or did you forget to run Generate Entities? \n");
 				}
 				
-				try {
-					trace("Class: " + c);
-					c.create(n, world);
-					trace("Called.");
-				} catch (e: Error)
-				{
-					throw new LevelLoadError("Load error when calling create() on a class, have you created a load handler? " + e.name + ": " + e.message + "(" + e.getStackTrace() + ")");
-				}
+				trace("Class: " + c);
+				c.create(n, world);
 			}
 			
 			

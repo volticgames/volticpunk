@@ -47,12 +47,12 @@ package volticpunk.entities
 		 * @param y Y Pos
 		 * 
 		 */		
-		public function addGraphicalEntity(g:Graphic, layer:int, x:int, y:int): VEntity
+		public function addGraphicalEntity(g:Graphic, layer:int, x:int, y:int, addToWorld: Boolean = false): VEntity
 		{
 			var e: VEntity = new VEntity(x, y, g);
 			e.layer = layer;
 			
-			contents.push(e);
+			add(e, addToWorld);
 			return e;
 		}
 		
