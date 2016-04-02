@@ -50,14 +50,26 @@ package volticpunk.components
 						parent.getRoom().remove(parent);
 					}
 					
+					active = false;
+					
 					if (callback != null)
 					{
 						callback(this.parent);
 					}
-					
-					active = false;
 				}
 			}
+		}
+		
+		public function pause(): void {
+			active = false;
+		}
+		
+		public function unpause(): void {
+			active = true;
+		}
+		
+		public function setCallback(f: Function): void {
+			callback = f;
 		}
 		
 		public function getTimeLeft():Number

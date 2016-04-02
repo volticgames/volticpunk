@@ -10,23 +10,24 @@ import net.flashpunk.graphics.Anim;
 import net.flashpunk.graphics.Spritemap;
 
 import volticpunk.util.AnimationLoader;
+import volticpunk.util.JSONAnimationLoader;
 
 public class Animator extends Component {
 
     private var spritemap:Spritemap;
     private var callbacks:Object;
-	private var animationLoader:AnimationLoader;
+	private var animationLoader: JSONAnimationLoader;
 
-    public function Animator(image:Class, width:uint, height:uint, xmlFile:Class = null, callbacks:Object = null) {
+    public function Animator(image:Class, width:uint, height:uint, file:Class = null, callbacks:Object = null) {
 
         super();
 
         spritemap = new Spritemap(image, width, height, animationEnded);
         this.callbacks = callbacks;
 
-		if (xmlFile != null)
+		if (file != null)
 		{
-			animationLoader = new AnimationLoader(xmlFile, width, height, spritemap.columns, spritemap.rows);
+			animationLoader = new JSONAnimationLoader(file, width, height, spritemap.columns, spritemap.rows);
 		}
     }
 	
@@ -81,7 +82,7 @@ public class Animator extends Component {
 		return "animator";
 	}
 	
-	public function getLoader():AnimationLoader
+	public function getLoader(): JSONAnimationLoader
 	{
 		return animationLoader;
 	}

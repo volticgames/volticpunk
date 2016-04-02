@@ -3,6 +3,8 @@ package volticpunk.components
 	import net.flashpunk.FP;
 	import net.flashpunk.tweens.misc.MultiVarTween;
 	
+	import volticpunk.util.Promise;
+	
 	public class Tweener extends Component
 	{
 		
@@ -58,7 +60,7 @@ package volticpunk.components
 			tweener.complete = f;
 		}
 		
-		public function tween(object:Object, values:Object, duration:Number, ease:Function = null, delay:Number = 0):void
+		public function tween(object:Object, values:Object, duration:Number, ease:Function = null, delay:Number = 0): Promise
 		{
 			if (frameDependent)
 			{
@@ -67,6 +69,13 @@ package volticpunk.components
 				tweener.tween(object, values, duration, ease, delay);	
 			}
 			
+			var p: Promise = new Promise();
+			if (tweener.complete) {
+				p.then(tweener.complete);
+			}
+
+			setCallback(p.resolve);
+			return p;
 		}
 		
 		public function getCompletion():Number

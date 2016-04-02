@@ -55,7 +55,7 @@ package volticpunk.worlds
 		 */
 		private function createDarknessOverlay():void
 		{
-			darknessOverlay = Image.createRect(C.WIDTH, C.HEIGHT, 0x777777);
+			darknessOverlay = Image.createRect(C.WIDTH + C.GRID, C.HEIGHT + C.GRID, 0x777777);
 			darknessOverlay.blend = BlendMode.SUBTRACT;
 			darknessOverlay.scrollX = darknessOverlay.scrollY = 0;
 			darknessOverlay.alpha = 0.6;

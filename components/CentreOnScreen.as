@@ -5,16 +5,16 @@ package volticpunk.components
 		private var width: Number;
 		private var height: Number;
 		
-		public function CentreOnScreen(width: Number = Number.NaN, height: Number = Number.NaN)
+		public function CentreOnScreen(width: Number = Number.NEGATIVE_INFINITY, height: Number = Number.NEGATIVE_INFINITY)
 		{
 			super();
 			
-			if (width == Number.NaN)
+			if (width == Number.NEGATIVE_INFINITY)
 			{
 				width = parent.width;
 			}
 			
-			if (height == Number.NaN)
+			if (height == Number.NEGATIVE_INFINITY)
 			{
 				height = parent.height;
 			}

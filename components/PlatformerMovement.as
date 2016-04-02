@@ -40,6 +40,8 @@ package volticpunk.components
 		
 		private var adaptToTimeDelta: Boolean;
 		
+		private var againstWall: Boolean = false;
+		
 		public function PlatformerMovement(acceleration:Point=null, friction:Point=null, maxSpeed:Point=null, adaptToTimeDelta: Boolean = true)
 		{
 			//Initialise
@@ -162,6 +164,7 @@ package volticpunk.components
 			
 			specialCollisionTypes.push("jump_through");
 
+			againstWall = false;
 			
             movedAmount.x += 1;
             if (!parent.collideTypes(specialCollisionTypes, parent.x + dir, parent.y))
@@ -192,6 +195,7 @@ package volticpunk.components
 			tempVelocity.x = 0;
 			velocity.x = 0;
 			if (wallCallback != null) wallCallback();
+			againstWall = true;
 		}
 
         /**
@@ -312,6 +316,10 @@ package volticpunk.components
 		public function forceLandingCallback(): void
 		{
 			onLanding();
+		}
+		
+		public function isAgainstWall(): Boolean {
+			return againstWall;
 		}
 		
 		/**

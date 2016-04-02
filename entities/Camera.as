@@ -5,6 +5,8 @@ package volticpunk.entities
 	import net.flashpunk.Entity;
 	import net.flashpunk.FP;
 	import net.flashpunk.tweens.misc.MultiVarTween;
+	import net.flashpunk.tweens.misc.VarTween;
+	import net.flashpunk.utils.Ease;
 	
 	import volticpunk.util.Constrain;
 	import volticpunk.util.Diff;
@@ -29,9 +31,11 @@ package volticpunk.entities
 		
 		private var shake:Point;
 		private var shaking:Boolean;
-		private var shakePower:Number = 0;
+		public var shakePower:Number = 0;
 		private var shakeDuration:Number = 0;
 		private var shakeLengthSoFar:Number = 0;
+		
+		private var shakeTween: VarTween;
 		
 		public var amountMovedLastFrame: Point;
 		
@@ -44,18 +48,21 @@ package volticpunk.entities
 			
 			panner = new MultiVarTween(panComplete);
 			amountMovedLastFrame = new Point(0, 0);
+			shakeTween = new VarTween();
 		}
 		
 		override public function added():void
 		{
 			super.added();
 			addTween(panner);
+			addTween(shakeTween);
 		}
 		
 		override public function removed():void
 		{
 			super.removed();
 			removeTween(panner);
+			removeTween(shakeTween);
 		}
 		
 		override public function update():void
@@ -74,6 +81,10 @@ package volticpunk.entities
 				} else {
 					if (Diff.diff(this.x, following.x) >= 0.1) this.x -= (this.x - (following.x - C.WIDTH/2) + offset.x)/speed;
 					if (Diff.diff(this.y, following.y) >= 0.1) this.y -= (this.y - (following.y - C.HEIGHT/2) + offset.y)/speed;
+					
+					x = Math.round(x);
+					y = Math.round(y);
+					
 					target.x = following.x;
 					target.y = following.y;
 				}
@@ -81,31 +92,27 @@ package volticpunk.entities
 
 			}
 			
-			if (shaking)
+			shake.x = Math.random()*shakePower;
+			shake.y = Math.random()*shakePower;
+			
+			if (shakePower > 0)
 			{
-				shake.x = Math.random()*shakePower;
-				shake.y = Math.random()*shakePower;
+				
 				shakeLengthSoFar += FP.elapsed;
 				
-				if (shakeLengthSoFar > shakeDuration)
+				if (shakeLengthSoFar > shakeDuration && shaking)
 				{
 					shaking = false;
-					shake.x = shake.y = 0;
 					shakeLengthSoFar = 0;
 					shakeDuration = 0;
+					shakeTween.tween(this, "shakePower", 0, 0.5);
 				}
 			}
 			
 			var extraX: Number = 0;
 			var extraY: Number = 0;
 			
-			if (shaking)
-			{
-				extraX = shake.x;
-				extraY = shake.y;
-			}
-			
-			setPositionWithConstraints(Math.round(this.x), Math.round(this.y), extraX, extraY);
+			setPositionWithConstraints(Math.round(this.x), Math.round(this.y), shake.x, shake.y);
 		
 		
 			amountMovedLastFrame = FP.camera.subtract( old );
@@ -131,10 +138,14 @@ package volticpunk.entities
 		 * @param duration in seconds
 		 * 
 		 */		
-		public function screenshake(power:int, duration:Number):void
+		public function screenshake(power:Number, duration:Number):void
 		{
+			if (power < 1) {
+				power = 0;
+			}
+			
 			shaking = true;
-			shakePower = power;
+			shakeTween.tween(this, "shakePower", power, 0.5);
 			shakeDuration = duration;
 			shakeLengthSoFar = 0;
 			shake.x = Math.random()*power;
@@ -201,10 +212,10 @@ package volticpunk.entities
 		 * @param desty Target Y
 		 * 
 		 */		
-		public function panTo(duration:Number, destx:Number, desty:Number, callback:Function=null):void
+		public function panTo(duration:Number, destx:Number, desty:Number, callback:Function=null, ease: Function = null):void
 		{
 			panCallback = callback;
-			panner.tween(this, {x:destx - C.WIDTH/2, y:desty - C.HEIGHT/2}, duration);
+			panner.tween(this, {x:destx - C.WIDTH/2, y:desty - C.HEIGHT/2}, duration, ease);
 			following = null;
 			target.x = destx;
 			target.y = desty;

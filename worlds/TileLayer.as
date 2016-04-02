@@ -41,8 +41,6 @@ package volticpunk.worlds
 		
 		public function load(): void
 		{
-			log("My layer is ", layer);
-			
 			var rows:Vector.<String> = Vector.<String>(mapData.split("\n"));
 			
 			//Load tiles

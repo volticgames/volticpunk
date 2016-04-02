@@ -4,12 +4,14 @@ package volticpunk.entities {
 	
 	import net.flashpunk.Entity;
 	import net.flashpunk.FP;
+	import net.flashpunk.graphics.Graphiclist;
 	import net.flashpunk.graphics.Image;
 	import net.flashpunk.graphics.Text;
 	
 	import volticpunk.components.Animator;
 	import volticpunk.components.CentreOnScreen;
 	import volticpunk.components.Component;
+	import volticpunk.components.DeactivateOffscreen;
 	import volticpunk.components.PlatformerMovement;
 	import volticpunk.components.Tweener;
 	import volticpunk.util.Logger;
@@ -44,7 +46,7 @@ package volticpunk.entities {
 		{
 			if (Logger.enabled)
 			{
-				Logger.log(this + "", "[" + args.join("] [") + "]");
+				Logger.log(this + "", args);
 			}
 			
 		}
@@ -72,6 +74,17 @@ package volticpunk.entities {
 				return graphic as Image;
 			} else {
 				throw new Error("Graphic type is not Image");
+			}
+			
+		}
+		
+		public function getGraphiclist(): Graphiclist
+		{
+			if (graphic is Graphiclist)
+			{
+				return graphic as Graphiclist;
+			} else {
+				throw new Error("Graphic type is not Graphiclist");
 			}
 			
 		}
@@ -144,6 +157,11 @@ package volticpunk.entities {
 		public function getAnimator(): Animator
 		{
 			return ( getComponent(Animator) as Animator);
+		}
+		
+		public function getDeactivateOffScreen(): DeactivateOffscreen
+		{
+			return ( getComponent(DeactivateOffscreen) as DeactivateOffscreen);
 		}
 		
 		public function getPlatformMovement(): PlatformerMovement

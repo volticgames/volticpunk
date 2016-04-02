@@ -10,6 +10,7 @@ package volticpunk.worlds
 	import net.flashpunk.World;
 	
 	import volticpunk.errors.LevelLoadError;
+	import volticpunk.util.Logger;
 
 	public class LookupDictionary
 	{
@@ -47,7 +48,7 @@ package volticpunk.worlds
 			} else {
 			
 				var name: String = "entities.loadable." + n.name();
-				trace("Loading... " + name);
+				Logger.log("LookupDictionary", "Loading... " + name, n.toXMLString());
 				c = getDefinitionByName(name) as Class;	
 				
 				if (c == null)
@@ -55,7 +56,6 @@ package volticpunk.worlds
 					throw new LevelLoadError("Load Error when dynamically searching for class, did you forget to put your entity in entities.loadable? or did you forget to run Generate Entities? \n");
 				}
 				
-				trace("Class: " + c);
 				c.create(n, world);
 			}
 			

@@ -20,10 +20,28 @@ package volticpunk.worlds
 		protected var fadeImage:Image;
 		protected var fadeTween:VarTween;
 		
+		private var events: Object = {};
+		
 		public function Room(fadeIn:Boolean=true)
 		{
 			super();
 			shouldFadeIn = fadeIn;
+		}
+		
+		public function subscribe(event: String, callback: Function): void {
+			if (events[event] === undefined) {
+				events[event] = [];
+			}
+			
+			events[event].push(callback);
+		}
+		
+		public function dispatch(event: String, ...params): void {
+			if (events[event] !== undefined) {
+				for each (var cb: Function in events[event]) {
+					cb.apply(null, params);
+				}
+			}
 		}
 		
 		override public function end(): void
@@ -149,6 +167,14 @@ package volticpunk.worlds
 			group.addAll (members);
 			
 			return group;
+		}
+		
+		public function getInstanceByClass(c: Class): Entity {
+			var members:Array = new Array();
+			
+			this.getClass(c, members);
+			
+			return members[0];
 		}
 		
 		public function getMembersByComponent(c: Class): Group
