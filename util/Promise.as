@@ -31,12 +31,12 @@ package volticpunk.util
 			if (isResolved) {
 				return;
 			}
-			
+
+            isResolved = true;
+
 			for each (var f: Function in callbacks) {
 				f();
 			}
-			
-			isResolved = true;
 		}
 		
 		public function reject(): void {
