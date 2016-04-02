@@ -10,8 +10,9 @@ package volticpunk.entities
 	
 	import volticpunk.util.Constrain;
 	import volticpunk.util.Diff;
-	
-	/**
+    import volticpunk.util.Promise;
+
+    /**
 	 * Camera class for the controlling the viewport. 
 	 * @author bfollington
 	 * 
@@ -34,8 +35,7 @@ package volticpunk.entities
 		public var shakePower:Number = 0;
 		private var shakeDuration:Number = 0;
 		private var shakeLengthSoFar:Number = 0;
-		
-		private var shakeTween: VarTween;
+        private var screenshakePromise: Promise;
 		
 		public var amountMovedLastFrame: Point;
 		
@@ -48,21 +48,18 @@ package volticpunk.entities
 			
 			panner = new MultiVarTween(panComplete);
 			amountMovedLastFrame = new Point(0, 0);
-			shakeTween = new VarTween();
 		}
 		
 		override public function added():void
 		{
 			super.added();
 			addTween(panner);
-			addTween(shakeTween);
 		}
 		
 		override public function removed():void
 		{
 			super.removed();
 			removeTween(panner);
-			removeTween(shakeTween);
 		}
 		
 		override public function update():void
@@ -97,7 +94,6 @@ package volticpunk.entities
 			
 			if (shakePower > 0)
 			{
-				
 				shakeLengthSoFar += FP.elapsed;
 				
 				if (shakeLengthSoFar > shakeDuration && shaking)
@@ -105,7 +101,7 @@ package volticpunk.entities
 					shaking = false;
 					shakeLengthSoFar = 0;
 					shakeDuration = 0;
-					shakeTween.tween(this, "shakePower", 0, 0.5);
+					getTweener().tween(this, {shakePower: 0}, 0.3).then(onShakeDone);
 				}
 			}
 			
@@ -118,6 +114,10 @@ package volticpunk.entities
 			amountMovedLastFrame = FP.camera.subtract( old );
 			
 		}
+
+        private function onShakeDone(): void {
+            screenshakePromise.resolve();
+        }
 		
 		/**
 		 * Positions the camera without it leaving the bounds of the level. 
@@ -138,18 +138,36 @@ package volticpunk.entities
 		 * @param duration in seconds
 		 * 
 		 */		
-		public function screenshake(power:Number, duration:Number):void
+		public function screenshake(power:Number, duration:Number, instant: Boolean = false): Promise
 		{
 			if (power < 1) {
 				power = 0;
 			}
 			
 			shaking = true;
-			shakeTween.tween(this, "shakePower", power, 0.5);
+
+			if (instant) {
+                if (getTweener().isActive()) {
+                    getTweener().cancel();
+                }
+
+                if (screenshakePromise) {
+                    screenshakePromise.resolve();
+                }
+
+				shakePower = power;
+			} else {
+				getTweener().tween(this, {shakePower: power}, 0.5);
+			}
+
 			shakeDuration = duration;
 			shakeLengthSoFar = 0;
 			shake.x = Math.random()*power;
 			shake.y = Math.random()*power;
+
+            screenshakePromise = new Promise();
+
+            return screenshakePromise;
 		}
 		
 		/**
