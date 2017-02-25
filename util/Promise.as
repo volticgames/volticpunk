@@ -4,6 +4,8 @@ package volticpunk.util
 	{
 		private var callbacks: Vector.<Function>;
 		private var errors: Vector.<Function>;
+		private var isResolved: Boolean = false;
+		private var isRejected: Boolean = false;
 		
 		public function Promise()
 		{
@@ -26,15 +28,27 @@ package volticpunk.util
 		}
 		
 		public function resolve(): void {
+			if (isResolved) {
+				return;
+			}
+
+            isResolved = true;
+
 			for each (var f: Function in callbacks) {
 				f();
 			}
 		}
 		
 		public function reject(): void {
+			if (isRejected) {
+				return;
+			}
+			
 			for each (var f: Function in errors) {
 				f();
 			}
+			
+			isRejected = true;
 		}
 		
 		

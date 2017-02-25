@@ -5,11 +5,14 @@ package volticpunk.entities
 	import net.flashpunk.Entity;
 	import net.flashpunk.FP;
 	import net.flashpunk.tweens.misc.MultiVarTween;
+	import net.flashpunk.tweens.misc.VarTween;
+	import net.flashpunk.utils.Ease;
 	
 	import volticpunk.util.Constrain;
 	import volticpunk.util.Diff;
-	
-	/**
+    import volticpunk.util.Promise;
+
+    /**
 	 * Camera class for the controlling the viewport. 
 	 * @author bfollington
 	 * 
@@ -22,19 +25,22 @@ package volticpunk.entities
 		private var following:Entity;
 		public var panning:Boolean = false;
 		
-		private var speed:Number = 10.0;
+		private var speed:Number = 12.0;
 		
 		private var panner:MultiVarTween;
 		private var panCallback:Function = null;
 		
 		private var shake:Point;
 		private var shaking:Boolean;
-		private var shakePower:Number = 0;
+		public var shakePower:Number = 0;
 		private var shakeDuration:Number = 0;
 		private var shakeLengthSoFar:Number = 0;
+        private var screenshakePromise: Promise;
 		
-		public var amountMovedLastFrame: Point;
-		
+		public var amountMovedLastFrame: Point = new Point(0, 0);
+
+		protected var offsetFromTarget: Point;
+
 		public function Camera(x:Number=0, y:Number=0)
 		{
 			super(x, y, null, null);
@@ -44,6 +50,7 @@ package volticpunk.entities
 			
 			panner = new MultiVarTween(panComplete);
 			amountMovedLastFrame = new Point(0, 0);
+			offsetFromTarget = new Point(0, 0);
 		}
 		
 		override public function added():void
@@ -57,10 +64,15 @@ package volticpunk.entities
 			super.removed();
 			removeTween(panner);
 		}
+
+        public function setOffsetFromTarget(x: Number, y: Number): void {
+            offsetFromTarget.x = x;
+            offsetFromTarget.y = y;
+        }
 		
 		override public function update():void
 		{
-			var old: Point = new Point(FP.camera.x, FP.camera.y);
+			var old: Point = FP.camera;
 			
 			super.update();
 			
@@ -72,45 +84,47 @@ package volticpunk.entities
 					if (Diff.diff(this.x, target.x) >= 0.1) this.x -= (this.x - (target.x - C.WIDTH/2))/speed;
 					if (Diff.diff(this.y, target.y) >= 0.1) this.y -= (this.y - (target.y - C.HEIGHT/2))/speed;
 				} else {
-					if (Diff.diff(this.x, following.x) >= 0.1) this.x -= (this.x - (following.x - C.WIDTH/2) + offset.x)/speed;
-					if (Diff.diff(this.y, following.y) >= 0.1) this.y -= (this.y - (following.y - C.HEIGHT/2) + offset.y)/speed;
-					target.x = following.x;
-					target.y = following.y;
+					target.x = following.x + offsetFromTarget.x;
+					target.y = following.y + offsetFromTarget.y;
+
+					if (Diff.diff(this.x, following.x) >= 0.1) this.x -= (this.x - (target.x - C.WIDTH/2) + offset.x)/speed;
+					if (Diff.diff(this.y, following.y) >= 0.1) this.y -= (this.y - (target.y - C.HEIGHT/2) + offset.y)/speed;
+
+					x = Math.round(x);
+					y = Math.round(y);
 				}
 			} else {
 
 			}
+
+			shake.x = Math.round(Math.random()*shakePower*2 - shakePower / 2);
+			shake.y = Math.round(Math.random()*shakePower*2 - shakePower / 2);
 			
-			if (shaking)
+			if (shakePower > 0)
 			{
-				shake.x = Math.random()*shakePower;
-				shake.y = Math.random()*shakePower;
 				shakeLengthSoFar += FP.elapsed;
 				
-				if (shakeLengthSoFar > shakeDuration)
+				if (shakeLengthSoFar > shakeDuration && shaking)
 				{
 					shaking = false;
-					shake.x = shake.y = 0;
 					shakeLengthSoFar = 0;
 					shakeDuration = 0;
+					getTweener().tween(this, {shakePower: 0}, 0.3).then(onShakeDone);
 				}
 			}
 			
 			var extraX: Number = 0;
 			var extraY: Number = 0;
 			
-			if (shaking)
-			{
-				extraX = shake.x;
-				extraY = shake.y;
-			}
-			
-			setPositionWithConstraints(Math.round(this.x), Math.round(this.y), extraX, extraY);
-		
-		
-			amountMovedLastFrame = FP.camera.subtract( old );
-			
+			setPositionWithConstraints(Math.round(this.x), Math.round(this.y), shake.x, shake.y);
+
+			amountMovedLastFrame.x = FP.camera.x - old.x;
+			amountMovedLastFrame.x = FP.camera.y - old.y;
 		}
+
+        private function onShakeDone(): void {
+            screenshakePromise.resolve();
+        }
 		
 		/**
 		 * Positions the camera without it leaving the bounds of the level. 
@@ -131,14 +145,36 @@ package volticpunk.entities
 		 * @param duration in seconds
 		 * 
 		 */		
-		public function screenshake(power:int, duration:Number):void
+		public function screenshake(power:Number, duration:Number, instant: Boolean = false): Promise
 		{
+			if (power < 1) {
+				power = 0;
+			}
+			
 			shaking = true;
-			shakePower = power;
+
+			if (instant) {
+                if (getTweener().isActive()) {
+                    getTweener().cancel();
+                }
+
+                if (screenshakePromise) {
+                    screenshakePromise.resolve();
+                }
+
+				shakePower = power;
+			} else {
+				getTweener().tween(this, {shakePower: power}, 0.5);
+			}
+
 			shakeDuration = duration;
 			shakeLengthSoFar = 0;
-			shake.x = Math.random()*power;
-			shake.y = Math.random()*power;
+			shake.x = Math.ceil(Math.random()*power);
+			shake.y = Math.ceil(Math.random()*power);
+
+            screenshakePromise = new Promise();
+
+            return screenshakePromise;
 		}
 		
 		/**
@@ -201,10 +237,10 @@ package volticpunk.entities
 		 * @param desty Target Y
 		 * 
 		 */		
-		public function panTo(duration:Number, destx:Number, desty:Number, callback:Function=null):void
+		public function panTo(duration:Number, destx:Number, desty:Number, callback:Function=null, ease: Function = null):void
 		{
 			panCallback = callback;
-			panner.tween(this, {x:destx - C.WIDTH/2, y:desty - C.HEIGHT/2}, duration);
+			panner.tween(this, {x:destx - C.WIDTH/2, y:desty - C.HEIGHT/2}, duration, ease);
 			following = null;
 			target.x = destx;
 			target.y = desty;

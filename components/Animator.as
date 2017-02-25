@@ -9,27 +9,31 @@ package volticpunk.components {
 import net.flashpunk.graphics.Anim;
 import net.flashpunk.graphics.Spritemap;
 
-import volticpunk.util.AnimationLoader;
+	import punk.fx.graphics.FXSpritemap;
+	import punk.fx.lists.FXList;
+
+	import volticpunk.util.AnimationLoader;
+import volticpunk.util.JSONAnimationLoader;
 
 public class Animator extends Component {
 
-    private var spritemap:Spritemap;
+    private var spritemap: Spritemap;
     private var callbacks:Object;
-	private var animationLoader:AnimationLoader;
+	private var animationLoader: JSONAnimationLoader;
 
-    public function Animator(image:Class, width:uint, height:uint, xmlFile:Class = null, callbacks:Object = null) {
+    public function Animator(image:Class, width:uint, height:uint, file:Class = null, callbacks:Object = null) {
 
         super();
 
         spritemap = new Spritemap(image, width, height, animationEnded);
         this.callbacks = callbacks;
 
-		if (xmlFile != null)
+		if (file != null)
 		{
-			animationLoader = new AnimationLoader(xmlFile, width, height, spritemap.columns, spritemap.rows);
+			animationLoader = new JSONAnimationLoader(file, width, height, spritemap.columns, spritemap.rows);
 		}
     }
-	
+
 	public function getSpritemap(): Spritemap
 	{
 		return spritemap;
@@ -54,6 +58,10 @@ public class Animator extends Component {
 	public function setAnimFrame(name: String, frame: int): void
 	{
 		spritemap.setAnimFrame(name, frame);
+	}
+
+	public function centerOrigin(): void {
+		spritemap.centerOrigin();
 	}
 	
 	public function loadAnimation(loadName:String, animName:String, frameRate:Number, loop:Boolean = false):void
@@ -81,7 +89,7 @@ public class Animator extends Component {
 		return "animator";
 	}
 	
-	public function getLoader():AnimationLoader
+	public function getLoader(): JSONAnimationLoader
 	{
 		return animationLoader;
 	}

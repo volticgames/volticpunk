@@ -16,7 +16,7 @@ package volticpunk.util
 		{
 			if (enabled)
 			{
-				trace("<" + name + ">", args, name + ".as:" + lineNumber(3));
+				trace("<" + name + ">", args.join(", "), "{" + name + ".as:" + lineNumber(3) + "}");
 			}
 			
 		}

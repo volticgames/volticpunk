@@ -5,22 +5,24 @@ package volticpunk.components
 		private var width: Number;
 		private var height: Number;
 		
-		public function CentreOnScreen(width: Number = Number.NaN, height: Number = Number.NaN)
+		public function CentreOnScreen(width: Number = Number.NEGATIVE_INFINITY, height: Number = Number.NEGATIVE_INFINITY)
 		{
 			super();
 			
-			if (width == Number.NaN)
+			this.width = width;
+			this.height = height;
+		}
+
+		public function init(): void {
+			if (width == Number.NEGATIVE_INFINITY)
 			{
 				width = parent.width;
 			}
-			
-			if (height == Number.NaN)
+
+			if (height == Number.NEGATIVE_INFINITY)
 			{
 				height = parent.height;
 			}
-			
-			this.width = width;
-			this.height = height;
 		}
 		
 		public function centreX(): void

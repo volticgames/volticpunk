@@ -14,5 +14,11 @@ package volticpunk.util
 			var index:int = int(Math.random()*(input.length));
 			return input[index];
 		}
+		
+		public static function chooseFromArray(arr: Array):*
+		{
+			var index:int = int(Math.random()*(arr.length));
+			return arr[index];
+		}
 	}
 }

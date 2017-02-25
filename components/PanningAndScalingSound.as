@@ -40,17 +40,17 @@ public class PanningAndScalingSound extends Component {
 
     public function play():void
     {
-        sound.play();
+        Proof.getSound().play(sound, sound.volume, sound.pan);
     }
 
     public function loop():void
     {
-        sound.loop();
+        Proof.getSound().loop(sound, sound.volume, sound.pan);
     }
 
     public function stop():void
     {
-        sound.stop();
+        Proof.getSound().stop(sound);
     }
 }
 }

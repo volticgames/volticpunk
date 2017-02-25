@@ -68,6 +68,10 @@ package volticpunk.components
 			return 1 - (getTimeLeft() / getOriginalTime());
 		}
 		
+		public function setRepeatTime(every: Number): void {
+			this.every = every;
+		}
+		
 		override public function update():void
 		{
 			super.update();

@@ -1,7 +1,5 @@
 package volticpunk.entities
 {
-
-    import flash.errors.MemoryError;
     
     import net.flashpunk.Entity;
     import net.flashpunk.FP;
@@ -179,8 +177,13 @@ package volticpunk.entities
 		 */		
 		public function remove(e:Entity, removeFromWorld:Boolean=false):void
 		{
-			contents.splice(contents.indexOf(e), 1);
-            if (removeFromWorld && world) world.remove(e);
+			var index: int = contents.indexOf(e);
+
+            // Only remove from group if it's ACTUALLY IN IT!!
+			if (index >= 0) {
+                contents.splice(contents.indexOf(e), 1);
+                if (removeFromWorld && world) world.remove(e);
+			}
 		}
 		
 		public function removeAll(removeFromWorld: Boolean=false): void
