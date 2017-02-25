@@ -8,7 +8,15 @@ package volticpunk.components
 	public class PlatformerMovement extends Component
 	{
 		/** Movement toggle */
-		public var freezeMovement:Boolean = false;
+		private var _freezeMovement: Boolean = false;
+
+		public function set freezeMovement(val: Boolean):void {
+			_freezeMovement = val;
+		}
+
+		public function get freezeMovement(): Boolean {
+			return _freezeMovement;
+		}
 		
 		/** Current Speed */
 		public var velocity:Point;
@@ -153,6 +161,31 @@ package volticpunk.components
 			}
 			
 		}
+
+        public function tryMove(xDelta: Number = 0, yDelta: Number = 0): Boolean {
+            var result: Boolean = true;
+
+            if (!parent.collideTypes(collisionTypes, parent.x + xDelta, parent.y)) {
+                parent.x += xDelta;
+            } else {
+                result = false;
+            }
+
+            if (!parent.collideTypes(collisionTypes, parent.x, parent.y + yDelta)) {
+                parent.y += yDelta;
+            } else {
+                result = false;
+            }
+
+            return result;
+        }
+
+        public function tryMoveTo(x: Number, y: Number): Boolean {
+            var xDelta: Number = x - parent.x;
+            var yDelta: Number = y - parent.y;
+
+            return tryMove(xDelta, yDelta);
+        }
 		
 		/**
 		 * Move the object 1px horizontally safely 

@@ -70,7 +70,7 @@ package volticpunk.components
 			}
 			
 			var p: Promise = new Promise();
-			if (tweener.complete) {
+			if (tweener.complete != null) {
 				p.then(tweener.complete);
 			}
 

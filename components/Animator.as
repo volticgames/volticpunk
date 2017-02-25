@@ -9,12 +9,15 @@ package volticpunk.components {
 import net.flashpunk.graphics.Anim;
 import net.flashpunk.graphics.Spritemap;
 
-import volticpunk.util.AnimationLoader;
+	import punk.fx.graphics.FXSpritemap;
+	import punk.fx.lists.FXList;
+
+	import volticpunk.util.AnimationLoader;
 import volticpunk.util.JSONAnimationLoader;
 
 public class Animator extends Component {
 
-    private var spritemap:Spritemap;
+    private var spritemap: Spritemap;
     private var callbacks:Object;
 	private var animationLoader: JSONAnimationLoader;
 
@@ -30,7 +33,7 @@ public class Animator extends Component {
 			animationLoader = new JSONAnimationLoader(file, width, height, spritemap.columns, spritemap.rows);
 		}
     }
-	
+
 	public function getSpritemap(): Spritemap
 	{
 		return spritemap;
@@ -55,6 +58,10 @@ public class Animator extends Component {
 	public function setAnimFrame(name: String, frame: int): void
 	{
 		spritemap.setAnimFrame(name, frame);
+	}
+
+	public function centerOrigin(): void {
+		spritemap.centerOrigin();
 	}
 	
 	public function loadAnimation(loadName:String, animName:String, frameRate:Number, loop:Boolean = false):void

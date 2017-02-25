@@ -1,7 +1,10 @@
 package volticpunk.worlds
 {
+	import flash.geom.Point;
+
 	import net.flashpunk.Entity;
 	import net.flashpunk.FP;
+	import net.flashpunk.World;
 	import net.flashpunk.graphics.Image;
 	import net.flashpunk.tweens.misc.VarTween;
 
@@ -142,9 +145,24 @@ package volticpunk.worlds
 		 */		
 		public function changeRoom(room: Room):void
 		{
+			var oldWorld: World = FP.world;
+			oldWorld.removeAll();
 			FP.world = room;
 		}
-		
+
+		public function getMembersByTypes(...types): Group {
+			var members:Array = new Array();
+
+			for each (var type: String in types) {
+				this.getType(type, members);
+			}
+
+			var group:Group = new Group(0, 0);
+			group.addAll (members);
+
+			return group;
+		}
+
 		public function getMembersByType(type: String): Group
 		{
 			var members:Array = new Array();

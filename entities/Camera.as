@@ -25,7 +25,7 @@ package volticpunk.entities
 		private var following:Entity;
 		public var panning:Boolean = false;
 		
-		private var speed:Number = 10.0;
+		private var speed:Number = 12.0;
 		
 		private var panner:MultiVarTween;
 		private var panCallback:Function = null;
@@ -37,8 +37,10 @@ package volticpunk.entities
 		private var shakeLengthSoFar:Number = 0;
         private var screenshakePromise: Promise;
 		
-		public var amountMovedLastFrame: Point;
-		
+		public var amountMovedLastFrame: Point = new Point(0, 0);
+
+		protected var offsetFromTarget: Point;
+
 		public function Camera(x:Number=0, y:Number=0)
 		{
 			super(x, y, null, null);
@@ -48,6 +50,7 @@ package volticpunk.entities
 			
 			panner = new MultiVarTween(panComplete);
 			amountMovedLastFrame = new Point(0, 0);
+			offsetFromTarget = new Point(0, 0);
 		}
 		
 		override public function added():void
@@ -61,10 +64,15 @@ package volticpunk.entities
 			super.removed();
 			removeTween(panner);
 		}
+
+        public function setOffsetFromTarget(x: Number, y: Number): void {
+            offsetFromTarget.x = x;
+            offsetFromTarget.y = y;
+        }
 		
 		override public function update():void
 		{
-			var old: Point = new Point(FP.camera.x, FP.camera.y);
+			var old: Point = FP.camera;
 			
 			super.update();
 			
@@ -76,21 +84,21 @@ package volticpunk.entities
 					if (Diff.diff(this.x, target.x) >= 0.1) this.x -= (this.x - (target.x - C.WIDTH/2))/speed;
 					if (Diff.diff(this.y, target.y) >= 0.1) this.y -= (this.y - (target.y - C.HEIGHT/2))/speed;
 				} else {
-					if (Diff.diff(this.x, following.x) >= 0.1) this.x -= (this.x - (following.x - C.WIDTH/2) + offset.x)/speed;
-					if (Diff.diff(this.y, following.y) >= 0.1) this.y -= (this.y - (following.y - C.HEIGHT/2) + offset.y)/speed;
-					
+					target.x = following.x + offsetFromTarget.x;
+					target.y = following.y + offsetFromTarget.y;
+
+					if (Diff.diff(this.x, following.x) >= 0.1) this.x -= (this.x - (target.x - C.WIDTH/2) + offset.x)/speed;
+					if (Diff.diff(this.y, following.y) >= 0.1) this.y -= (this.y - (target.y - C.HEIGHT/2) + offset.y)/speed;
+
 					x = Math.round(x);
 					y = Math.round(y);
-					
-					target.x = following.x;
-					target.y = following.y;
 				}
 			} else {
 
 			}
-			
-			shake.x = Math.random()*shakePower;
-			shake.y = Math.random()*shakePower;
+
+			shake.x = Math.round(Math.random()*shakePower*2 - shakePower / 2);
+			shake.y = Math.round(Math.random()*shakePower*2 - shakePower / 2);
 			
 			if (shakePower > 0)
 			{
@@ -109,10 +117,9 @@ package volticpunk.entities
 			var extraY: Number = 0;
 			
 			setPositionWithConstraints(Math.round(this.x), Math.round(this.y), shake.x, shake.y);
-		
-		
-			amountMovedLastFrame = FP.camera.subtract( old );
-			
+
+			amountMovedLastFrame.x = FP.camera.x - old.x;
+			amountMovedLastFrame.x = FP.camera.y - old.y;
 		}
 
         private function onShakeDone(): void {
@@ -162,8 +169,8 @@ package volticpunk.entities
 
 			shakeDuration = duration;
 			shakeLengthSoFar = 0;
-			shake.x = Math.random()*power;
-			shake.y = Math.random()*power;
+			shake.x = Math.ceil(Math.random()*power);
+			shake.y = Math.ceil(Math.random()*power);
 
             screenshakePromise = new Promise();
 

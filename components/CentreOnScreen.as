@@ -9,18 +9,20 @@ package volticpunk.components
 		{
 			super();
 			
+			this.width = width;
+			this.height = height;
+		}
+
+		public function init(): void {
 			if (width == Number.NEGATIVE_INFINITY)
 			{
 				width = parent.width;
 			}
-			
+
 			if (height == Number.NEGATIVE_INFINITY)
 			{
 				height = parent.height;
 			}
-			
-			this.width = width;
-			this.height = height;
 		}
 		
 		public function centreX(): void
